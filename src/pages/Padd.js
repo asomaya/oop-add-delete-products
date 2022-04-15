@@ -54,13 +54,13 @@ class Padd extends React.Component {
     
       selectErr = "please select the product type";
     }
-     if(this.state.showhide==='1'){
+     if(this.state.showhide==='D'){
       if (!this.state.size) {
        sizeErr = "size required";}}
-       if(this.state.showhide==='3'){
+       if(this.state.showhide==='B'){
         if (!this.state.weight) {
          weightErr = "weight required";}}
-         if(this.state.showhide==='2'){
+         if(this.state.showhide==='F'){
           if (!this.state.height) {
            heightErr = "height required";}
            if (!this.state.width) {
@@ -100,9 +100,10 @@ redirect(){
       formData.append('height', this.state.height)
       formData.append('width', this.state.width)
       formData.append('length', this.state.length)
+      formData.append('type', this.state.showhide)
       axios({
           method: 'post',
-          url: 'http://localhost/ya/task/Back_end/add.php',
+          url: 'http://localhost/ya/task/Back_end/oopadd.php',
           data: formData,
           config: { headers: {'Content-Type': 'multipart/form-data' }}
       })
@@ -115,6 +116,7 @@ redirect(){
           //handle error
           console.log(response)
       });
+     
       this.setState({condition:true});
       
       this.setState(initialState);
@@ -175,14 +177,14 @@ redirect(){
   <span>Type switcher</span>
    <select className="form-select" aria-label="Default select example" id='productType' onChange={(e)=>(this.handleshowhide(e))}>
   <option value="">type switcher</option>  
-  <option value="1">DVD</option>
-  <option value="2">Furniture</option>
-  <option value="3">Book</option>
+  <option value="D">DVD</option>
+  <option value="F">Furniture</option>
+  <option value="B">Book</option>
 </select>
 </div>
 </div>
 {
-             this.state.showhide==='1' && (
+             this.state.showhide==='D' && (
               <div className="row" id="DVD">
               <div className="col-lg-4">
                 <input type="number" id='size' name="size" className="form-control" placeholder="size" aria-label="si"  value={this.state.size} onChange={e => this.setState({ size: e.target.value })} />
@@ -193,7 +195,7 @@ redirect(){
              )}           
 
              {
-             this.state.showhide==='2' && (
+             this.state.showhide==='F' && (
               <div className="row"  id="Furniture">
               <div className="col-lg-4">
                 <input type="number"  className="form-control" placeholder="height" aria-label="si" name='height'  id="height" value={this.state.height} onChange={e => this.setState({height : e.target.value })}/>
@@ -208,7 +210,7 @@ redirect(){
              ) }
 
              {
-           this.state.showhide==='3' && (
+           this.state.showhide==='B' && (
               <div className="row" id="Book">
               <div className="col-lg-4">
                 <input type="number" className="form-control" name='weight' placeholder="weight" aria-label="si"  id="weight"  value={this.state.weight} onChange={e => this.setState({ weight: e.target.value })} />

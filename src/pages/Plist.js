@@ -25,8 +25,18 @@ class Plist extends React.Component {
    
 }
 
+ componentDidMount() {
+    const url = 'http://localhost/ya/task/Back_end/ooplist.php'
+    axios.get(url).then(response => response.data)
+    .then((data) => {
+      this.setState({ contacts: data.rows })
+      console.log(this.state.contacts)
+     })
+  
+  }
 
-   deleteByIds (e ) { //alert(id)
+
+  deleteByIds (e ) { //alert(id)
     e.preventDefault();
 
     let formData = new FormData();
@@ -36,7 +46,7 @@ class Plist extends React.Component {
 
     axios({
         method: 'post',
-        url: 'http://localhost/ya/task/Back_end/list.php',
+        url: 'http://localhost/ya/task/Back_end/ooplist.php',
         data: formData,
         config: { headers: {'Content-Type': 'multipart/form-data' }}
     
@@ -50,18 +60,8 @@ class Plist extends React.Component {
     //handle error
     console.log(response)
 });
+window.location.reload();
 }
-
-  componentDidMount() {
-    const url = 'http://localhost/ya/task/Back_end/list.php'
-    axios.get(url).then(response => response.data)
-    .then((data) => {
-      this.setState({ contacts: data })
-      console.log(this.state.contacts)
-     })
-  }
-
-
   
 
  render() {
@@ -70,8 +70,8 @@ class Plist extends React.Component {
           <div className='container  head'>
             <h1>Product List </h1>
             <div>
-        <button name='delete' className="btn btn-danger btn-sm m-2" onClick={(e) => {this.deleteByIds(e) }}>  MASS DELETE</button>
-        <Link to='/add'> <button className="btn btn-primary btn-sm m-2"> Add Product </button></Link>
+        <button name='MASS DELETE' id='delete-product-btn' className="btn btn-danger btn-sm m-2" onClick={(e) => {this.deleteByIds(e) }}>MASS DELETE </button>
+        <Link to='/add'> <button name='ADD' className="btn btn-primary btn-sm m-2"> ADD </button></Link>
        </div></div>
        <div className="container">
        <hr></hr>
@@ -82,7 +82,7 @@ class Plist extends React.Component {
        <div className="card" key={index} >
             
            <div className="card-body">
-           <input type="checkbox" name='id []' className="selectsingle delete-checkbox" value="{contact.id}" checked={this.state.checkedBoxes.find((p) => p.id === contact.id)} onChange={(e) => this.toggleCheckbox(e, contact)} />
+           <input type="checkbox" name='id []' className="selectsingle  delete-checkbox" value="{contact.id}" checked={this.state.checkedBoxes.find((p) => p.id === contact.id)} onChange={(e) => this.toggleCheckbox(e, contact)} />
    <div className='center'>
     <h5 className="card-title">{ contact.sku}</h5>
     <h5 className="card-title">{ contact.Name}</h5>
